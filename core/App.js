@@ -7,7 +7,7 @@ class App {
     constructor() {
         this.middlewares = [];
         this.server = null;
-        this.router = null;
+        this.router = [];
     }
 
     use(middleware) {
@@ -15,7 +15,7 @@ class App {
     }
 
     useRouter(router) {
-        this.router = router;
+        this.router.push(router);
     }
 
     // Helper to set cookies
@@ -61,11 +61,6 @@ class App {
             res.end(JSON.stringify(data));
             return res;
         };
-
-            res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', true);
     }
 
     handler(req, res) {
@@ -74,11 +69,13 @@ class App {
 
         const middlewares = [...this.middlewares];
 
-        if (this.router) {
-            const routeHandlers = this.router.match(req.method, req.url);
-            if (routeHandlers) {
-                middlewares.push(...routeHandlers);
-            }
+        if (this.router.length) {
+            this.router.forEach((router) => {
+                const routeHandlers = router.match(req.method, req.url);
+                if (routeHandlers) {
+                    middlewares.push(...routeHandlers);
+                }
+            })
         }
 
         const next = () => {
