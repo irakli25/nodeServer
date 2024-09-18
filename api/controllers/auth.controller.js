@@ -31,7 +31,7 @@ module.exports.initRegister = async (req, res) => {
             email,
             challenge: options.challenge,
         }),
-        { httpOnly: true, maxAge: 60000, secure: true }
+        { httpOnly: true, maxAge: 60000, secure: true, sameSite: 'None' }
     )
 
     res.json(options);
@@ -97,7 +97,7 @@ module.exports.initAuth = async (req, res) => {
             userId: user.id,
             challenge: options.challenge,
         }),
-        { httpOnly: true, maxAge: 60000, secure: true }
+        { httpOnly: true, maxAge: 60000, secure: true, sameSite: 'None' }
     )
 
     res.json(options)
