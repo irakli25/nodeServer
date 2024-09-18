@@ -16,6 +16,14 @@ app.use(cookieParser());
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
 
+const mainRoute = new Router();
+
+mainRoute.get('/', (req, res, next) => {
+    res.statusCode = 200;
+    res.end('ok');
+})
+
+app.useRouter(mainRoute);
 app.useRouter(routes);
 
 app.listen(process.env.PORT, () => {
