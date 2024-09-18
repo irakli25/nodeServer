@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 
 app.use(cookieParser());
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
+app.use(cors({ origin: '*', credentials: true }))
 
 app.useRouter(routes);
 
